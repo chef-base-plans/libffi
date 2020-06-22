@@ -8,13 +8,15 @@ control 'core-plans-libffi' do
   impact 1.0
   title 'Ensure libffi libraries exist as expected'
   desc '
-  We check that the three folders that libffi installs are present.
+  To test libffi libraries exist we check for the path of the installed package.
+  Then we check that the library exists in the expected location.
   '
 
   hab_pkg_path = command("hab pkg path #{plan_ident}")
   describe hab_pkg_path do
-    its('exit_status') { should eq 0 }
     its('stdout') { should_not be_empty }
+    its('stderr') { should be_empty }
+    its('exit_status') { should eq 0 }
   end
 
   describe command("ls #{File.join(hab_pkg_path.stdout.strip, "lib")}") do
@@ -28,4 +30,5 @@ control 'core-plans-libffi' do
     its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }
   end
+
 end

@@ -15,19 +15,21 @@ control 'core-plans-libffi' do
   hab_pkg_path = command("hab pkg path #{plan_ident}")
   describe hab_pkg_path do
     its('stdout') { should_not be_empty }
-    #its('stderr') { should be_empty }
     its('exit_status') { should eq 0 }
   end
 
   describe command("ls #{File.join(hab_pkg_path.stdout.strip, "lib")}") do
     its('stdout') { should_not be_empty }
-    #its('stderr') { should eq '' }
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command("ls #{File.join(hab_pkg_path.stdout.strip, "include")}") do
+    its('stdout') { should_not be_empty }
     its('exit_status') { should eq 0 }
   end
 
   describe command("ls #{File.join(hab_pkg_path.stdout.strip, "share")}") do
     its('stdout') { should_not be_empty }
-    #its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }
   end
 
